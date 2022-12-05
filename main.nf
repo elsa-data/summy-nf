@@ -1,26 +1,33 @@
 #!/usr/bin/env nextflow
 
-import java.security.MessageDigest
 
 nextflow.enable.dsl = 2
 
 
 process summy {
     input:
-      tuple val(filetype), val(patient), file(f), val(md5)
+      path s3url
 
     output:
       stdout
 
-    """
-    md5 -q $f
-    """
+    script:
+        """
+        #!/usr/bin/env python3
+        import hashlib
+        from pathlib import Path
+
+        hash = hashlib.md5()
+        hash.update(Path('$s3url').read_bytes())
+        print (hash.digest())
+        """
 }
 
 workflow {
-    def fastqChannel = Channel
+    tsvInputChannel = Channel
                    .fromPath(params.input)
                    .splitCsv(header: true, sep: '\t')
+                   .map { it.S3URL  }
 
-    summy(fastqChannel) | view
+    summy(tsvInputChannel) | view
 }
