@@ -3,9 +3,7 @@
 process summy {
     debug true
 
-  container 'public.ecr.aws/docker/library/python:3.8-alpine'
-
-
+    container 'public.ecr.aws/docker/library/python:3.10.8-bullseye'
 
     input:
       path s3url
