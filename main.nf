@@ -17,9 +17,19 @@ process summy {
         import hashlib
         from pathlib import Path
 
-        hash = hashlib.md5()
-        hash.update(Path('$s3url').read_bytes())
-        print (hash.digest())
+        md5hash = hashlib.md5(usedforsecurity=False)
+        sha1hash = hashlib.sha1(usedforsecurity=False)
+        sha256hash = hashlib.sha256(usedforsecurity=False)
+
+        with open('$s3url','rb') as f:
+            while chunk := f.read(128 * md5hash.block_size):
+                md5hash.update(chunk)
+                sha1hash.update(chunk)
+                sha256hash.update(chunk)
+
+        print (f"md5 = {md5hash.hexdigest()}")
+        print (f"sha1 = {sha1hash.hexdigest()}")
+        print (f"sha256 = {sha256hash.hexdigest()}")
         """
 }
 
@@ -29,5 +39,5 @@ workflow {
                    .splitCsv(header: true, sep: '\t')
                    .map { it.S3URL  }
 
-    summy(tsvInputChannel) | view
+    summy(tsvInputChannel)
 }
