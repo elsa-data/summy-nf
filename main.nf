@@ -1,10 +1,12 @@
 #!/usr/bin/env nextflow
 
-
-nextflow.enable.dsl = 2
-
-
 process summy {
+    debug true
+
+  container 'public.ecr.aws/docker/library/python:3.8-alpine'
+
+
+
     input:
       path s3url
 
