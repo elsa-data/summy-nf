@@ -1,0 +1,32 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://raw.githubusercontent.com/umccr/summy/master/schema_input.json",
+    "title": "umccr/summy pipeline - params.input schema",
+    "description": "Schema for the file provided with params.input",
+    "type": "array",
+    "items": {
+        "type": "object",
+        "properties": {
+            "FILETYPE": {
+                "type": "string",
+                "pattern": "^\\S+$",
+                "errorMessage": "File type must be provided and cannot contain spaces"
+            },
+            "PATIENTID": {
+                "type": "string",
+                "pattern": "^\\S+$",
+                "errorMessage": "Patient id must be provided and cannot contain spaces"
+            },
+            "S3URL": {
+                "pattern": "^\\S+$",
+                "errorMessage": "s3 path"
+            },
+            "MD5": {
+                "pattern": "^\\S+$",
+                "errorMessage": "Must be an MD5"
+            }
+
+        },
+        "required": ["FILETYPE", "PATIENTID", "S3URL", "MD5"]
+    }
+}
