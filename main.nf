@@ -6,7 +6,7 @@ process summy {
     container 'public.ecr.aws/docker/library/python:3.10.8-bullseye'
 
     input:
-      path s3url
+      path inputurl
 
     output:
       stdout
@@ -21,7 +21,7 @@ process summy {
         sha1hash = hashlib.sha1(usedforsecurity=False)
         sha256hash = hashlib.sha256(usedforsecurity=False)
 
-        with open('$s3url','rb') as f:
+        with open('$inputurl','rb') as f:
             while chunk := f.read(128 * md5hash.block_size):
                 md5hash.update(chunk)
                 sha1hash.update(chunk)
@@ -37,7 +37,7 @@ workflow {
     tsvInputChannel = Channel
                    .fromPath(params.input)
                    .splitCsv(header: true, sep: '\t')
-                   .map { it.S3URL  }
+                   .map { it.OBJECTSTOREURL  }
 
     summy(tsvInputChannel)
 }
