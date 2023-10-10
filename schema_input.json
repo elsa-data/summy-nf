@@ -7,26 +7,35 @@
     "items": {
         "type": "object",
         "properties": {
-            "FILETYPE": {
+            "CASEID": {
                 "type": "string",
                 "pattern": "^\\S+$",
-                "errorMessage": "File type must be provided and cannot contain spaces"
+                "errorMessage": "Case id can be provided and cannot contain spaces"
             },
             "PATIENTID": {
                 "type": "string",
                 "pattern": "^\\S+$",
-                "errorMessage": "Patient id must be provided and cannot contain spaces"
+                "errorMessage": "Patient can be provided and cannot contain spaces"
             },
-            "S3URL": {
+            "SPECIMENID": {
+                "type": "string",
                 "pattern": "^\\S+$",
-                "errorMessage": "s3 path"
+                "errorMessage": "Specimen can be provided and cannot contain spaces"
+            },
+            "OBJECTTYPE": {
+                "type": "string",
+                "pattern": "^\\S+$",
+                "errorMessage": "File type must be provided and cannot contain spaces"
+            },
+            "OBJECTSTOREURL": {
+                "pattern": "^\\S+$",
+                "errorMessage": "S3 path as a URL must be provided and cannot contain spaces"
             },
             "MD5": {
                 "pattern": "^\\S+$",
                 "errorMessage": "Must be an MD5"
             }
-
         },
-        "required": ["FILETYPE", "PATIENTID", "S3URL", "MD5"]
+        "required": ["OBJECTTYPE", "OBJECTSTOREURL", "MD5"]
     }
 }
